@@ -1,0 +1,32 @@
+import pandas as pd
+from itertools import product
+
+data = [
+    ['Sunny', 'Warm', 'Normal', 'Strong', 'Yes'],
+    ['Sunny', 'Warm', 'High', 'Strong', 'Yes'],
+    ['Rainy', 'Cold', 'High', 'Strong', 'No'],
+    ['Sunny', 'Warm', 'High', 'Weak', 'Yes']
+]
+
+df = pd.DataFrame(data, columns=['Sky', 'Temp', 'Humidity', 'Wind', 'Enjoy'])
+
+X = df.iloc[:, :-1].values.tolist()
+y = df.iloc[:, -1].tolist()
+
+domains = [df[c].unique().tolist() for c in df.columns[:-1]]
+
+all_hypotheses = list(product(*[d + ['?'] for d in domains]))
+
+def matches(h, x):
+    return all(a == '?' or a == b for a, b in zip(h, x))
+
+version_space = []
+
+for h in all_hypotheses:
+    if all(matches(h, x) == (label == 'Yes')
+           for x, label in zip(X, y)):
+        version_space.append(h)
+
+print("Consistent Hypotheses:")
+for h in version_space:
+    print(h)
