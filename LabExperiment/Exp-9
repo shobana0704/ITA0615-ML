@@ -1,0 +1,28 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.metrics import mean_squared_error
+
+X = np.arange(1, 11).reshape(-1, 1)
+y = np.array([1, 4, 9, 16, 25, 36, 49, 64, 81, 100])
+
+linear = LinearRegression()
+linear.fit(X, y)
+linear_pred = linear.predict(X)
+
+poly = PolynomialFeatures(degree=2)
+X_poly = poly.fit_transform(X)
+
+model = LinearRegression()
+model.fit(X_poly, y)
+poly_pred = model.predict(X_poly)
+
+print("Linear MSE:", mean_squared_error(y, linear_pred))
+print("Polynomial MSE:", mean_squared_error(y, poly_pred))
+
+plt.scatter(X, y, label="Actual")
+plt.plot(X, linear_pred, label="Linear")
+plt.plot(X, poly_pred, label="Polynomial")
+plt.legend()
+plt.show()
