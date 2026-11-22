@@ -1,0 +1,19 @@
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+X = np.array([
+    [1, 10000],
+    [2, 20000],
+    [3, 30000],
+    [4, 40000],
+    [5, 50000]
+])
+
+y = np.array([500000, 400000, 300000, 200000, 100000])
+
+model = LinearRegression()
+model.fit(X, y)
+
+pred = model.predict([[2, 15000]])
+
+print("Predicted Car Price:", pred[0])
