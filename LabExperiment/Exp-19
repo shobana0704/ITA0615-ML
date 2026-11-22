@@ -1,0 +1,25 @@
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+
+X = [
+    [25, 30000],
+    [35, 50000],
+    [45, 60000],
+    [22, 20000],
+    [40, 70000],
+    [30, 40000]
+]
+
+y = [0, 1, 1, 0, 1, 1]
+
+model = GaussianNB()
+model.fit(X, y)
+
+pred = model.predict([
+    [28, 35000],
+    [42, 65000]
+])
+
+print("Loan Prediction:", pred)
+print("0 = Rejected, 1 = Approved")
+print("Training Accuracy:", accuracy_score(y, model.predict(X)))
